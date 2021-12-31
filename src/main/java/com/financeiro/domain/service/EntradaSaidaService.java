@@ -6,12 +6,15 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.financeiro.domain.EntradaSaidaRepository;
+import com.financeiro.domain.dto.EntradaSaidaMensalDTO;
+import com.financeiro.domain.mapper.EntradaSaidaMapper;
 import com.financeiro.domain.model.EntradaSaida;
 import com.financeiro.domain.model.Parcela;
 import com.financeiro.domain.request.EntradaSaidaRequest;
@@ -21,6 +24,9 @@ public class EntradaSaidaService {
 	@Autowired
 	private EntradaSaidaRepository repo;
 	
+	@Autowired
+	private EntradaSaidaMapper mapper;
+	
 	public void novaEntradaSaida(EntradaSaidaRequest entradaSaidaRequest) {
 		EntradaSaida entradaSaida = new EntradaSaida();
 		BeanUtils.copyProperties(entradaSaidaRequest, entradaSaida);
@@ -29,6 +35,21 @@ public class EntradaSaidaService {
 		repo.save(entradaSaida);
 	}
 	
+	public List<EntradaSaida> listarMensal(String inicio, String fim) {
+		LocalDate dtIn = LocalDate.parse(inicio);
+		LocalDate dtFim = LocalDate.parse(fim);
+		List<EntradaSaida> lista = new ArrayList<>();
+//		lista = repo.listarMensal();
+		lista = repo.listarMensal(dtIn, dtFim);
+		System.out.println(lista);
+		return lista;
+	}
+	
+//	public List<EntradaSaidaMensalDTO> listarMensalFiltrado(String inicio, String fim){
+//		LocalDate dtIn = LocalDate.parse(inicio);
+//		LocalDate dtFim = LocalDate.parse(fim);
+//		return repo.listarMensal(dtIn, dtFim).stream().map(item -> mapper.entradaSaidaToDto(item)).collect(Collectors.toList());
+//	}
 	
 	public List<Parcela> gerarParcelas(int qtdeParcelas, LocalDate dataVencimento, BigDecimal valor) {
 		List<Parcela>parcelas = new ArrayList<>();
