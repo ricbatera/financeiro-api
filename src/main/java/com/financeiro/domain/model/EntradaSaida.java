@@ -11,11 +11,19 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class EntradaSaida {
 
@@ -33,6 +41,7 @@ public class EntradaSaida {
 	
 //	LocalDateTime dataCadastro = LocalDateTime.ofInstant(Instant.now(), ZoneId.of("America/Sao_Paulo"));
 	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "entradaSaida", cascade = CascadeType.ALL)
 	private List<Parcela>parcelas;
 	

@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -31,6 +33,7 @@ public class Parcela {
 	
 	private BigDecimal valorEfetivo;
 	
+	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "entrada_saida_id")
 	private EntradaSaida entradaSaida;	
