@@ -1,11 +1,15 @@
 package com.financeiro.domain.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,7 +26,22 @@ public class EntradaSaida {
 	
 	private String descricao;
 	
-	private LocalDate dataCadastro;
+//	@Temporal(TemporalType.TIMESTAMP)     
+//	private Date dataCadastro = new java.sql.Date(System.currentTimeMillis());
 	
-	private String tipoEntradaSaida;
+	private LocalDateTime dataCadastro = LocalDateTime.now();
+	
+//	LocalDateTime dataCadastro = LocalDateTime.ofInstant(Instant.now(), ZoneId.of("America/Sao_Paulo"));
+	
+	@OneToMany(mappedBy = "entradaSaida", cascade = CascadeType.ALL)
+	private List<Parcela>parcelas;
+	
+	private String tipoEntradaSaida; 
+	
+	private  boolean recorrente;
+	
+	@PrePersist
+	public void setaEntradaSaidaNaLista() {
+		parcelas.forEach(i -> i.setEntradaSaida(this));
+	}
 }

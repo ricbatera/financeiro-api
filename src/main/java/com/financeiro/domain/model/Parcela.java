@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,7 +16,7 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Parcelas {
+public class Parcela {
 	
 	@Id
 	@EqualsAndHashCode.Include
@@ -28,5 +30,12 @@ public class Parcelas {
 	private BigDecimal valorEsperado;
 	
 	private BigDecimal valorEfetivo;
+	
+	@ManyToOne
+	@JoinColumn(name = "entrada_saida_id")
+	private EntradaSaida entradaSaida;	
+	
+	
+	private String status = "Aberto";
 
 }
