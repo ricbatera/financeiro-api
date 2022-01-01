@@ -1,4 +1,4 @@
-package com.financeiro.domain;
+package com.financeiro.domain.repository;
 
 import java.time.LocalDate;
 import java.util.List;

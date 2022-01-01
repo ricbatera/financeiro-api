@@ -1,7 +1,5 @@
 package com.financeiro.api.controller;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.financeiro.domain.EntradaSaidaRepository;
-import com.financeiro.domain.dto.EntradaSaidaMensalDTO;
 import com.financeiro.domain.model.EntradaSaida;
+import com.financeiro.domain.model.Parcela;
+import com.financeiro.domain.repository.EntradaSaidaRepository;
 import com.financeiro.domain.request.EntradaSaidaRequest;
 import com.financeiro.domain.service.EntradaSaidaService;
 
@@ -51,6 +49,11 @@ public class EntradaSaidaController {
 	@GetMapping("/listaMensal")
 	public List<EntradaSaida> listaMensal(@Param(value = "inicial")String inicial, @Param(value = "fim")String fim) {
 		return service.listarMensal(inicial, fim);
+	}
+	
+	@GetMapping("/listaParcelasMensal")
+	public List<Parcela>listaParcelasMensal (@Param(value = "inicial")String inicial, @Param(value = "fim")String fim){
+		return service.listarParcelasPorMes(inicial, fim);
 	}
 
 }

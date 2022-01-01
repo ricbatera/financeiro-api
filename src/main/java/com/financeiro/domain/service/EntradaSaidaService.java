@@ -12,11 +12,12 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.financeiro.domain.EntradaSaidaRepository;
 import com.financeiro.domain.dto.EntradaSaidaMensalDTO;
 import com.financeiro.domain.mapper.EntradaSaidaMapper;
 import com.financeiro.domain.model.EntradaSaida;
 import com.financeiro.domain.model.Parcela;
+import com.financeiro.domain.repository.EntradaSaidaRepository;
+import com.financeiro.domain.repository.ParcelaRepository;
 import com.financeiro.domain.request.EntradaSaidaRequest;
 
 @Service
@@ -25,7 +26,7 @@ public class EntradaSaidaService {
 	private EntradaSaidaRepository repo;
 	
 	@Autowired
-	private EntradaSaidaMapper mapper;
+	private ParcelaRepository parcelaRepository;
 	
 	public void novaEntradaSaida(EntradaSaidaRequest entradaSaidaRequest) {
 		EntradaSaida entradaSaida = new EntradaSaida();
@@ -43,6 +44,12 @@ public class EntradaSaidaService {
 		lista = repo.listarMensal(dtIn, dtFim);
 		System.out.println(lista);
 		return lista;
+	}
+	
+	public List<Parcela>listarParcelasPorMes(String inicio, String fim){
+		LocalDate dtIn = LocalDate.parse(inicio);
+		LocalDate dtFim = LocalDate.parse(fim);
+		return parcelaRepository.listarFiltrandoMes(dtIn, dtFim);
 	}
 	
 //	public List<EntradaSaidaMensalDTO> listarMensalFiltrado(String inicio, String fim){
