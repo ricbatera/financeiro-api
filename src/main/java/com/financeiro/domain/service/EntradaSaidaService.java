@@ -64,6 +64,10 @@ public class EntradaSaidaService {
 		parcelaRepository.save(parcela);
 	}
 	
+	public List<Parcela>busarEntradaSaidaId(Long id){
+		return parcelaRepository.findByentradaSaidaId(id);
+	}
+	
 	public List<Parcela> gerarParcelas(int qtdeParcelas, LocalDate dataVencimento, BigDecimal valor) {
 		List<Parcela>parcelas = new ArrayList<>();
 		Calendar vencimento = converteVencimento(dataVencimento);

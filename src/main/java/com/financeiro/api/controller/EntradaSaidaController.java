@@ -61,5 +61,10 @@ public class EntradaSaidaController {
 	public void pagarParcela(@PathVariable Long id) {
 		service.pagar(id);
 	}
+	
+	@GetMapping("/buscarEntradaSaida/{id}")
+	public List<Parcela> buscarEntradaSaidaPorId(@PathVariable Long id) {
+		return service.busarEntradaSaidaId(id);
+	}
 
 }
