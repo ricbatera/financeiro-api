@@ -58,6 +58,12 @@ public class EntradaSaidaService {
 //		return repo.listarMensal(dtIn, dtFim).stream().map(item -> mapper.entradaSaidaToDto(item)).collect(Collectors.toList());
 //	}
 	
+	public void pagar(Long id) {
+		Parcela parcela = parcelaRepository.getById(id);
+		parcela.setStatus("Pago");
+		parcelaRepository.save(parcela);
+	}
+	
 	public List<Parcela> gerarParcelas(int qtdeParcelas, LocalDate dataVencimento, BigDecimal valor) {
 		List<Parcela>parcelas = new ArrayList<>();
 		Calendar vencimento = converteVencimento(dataVencimento);
