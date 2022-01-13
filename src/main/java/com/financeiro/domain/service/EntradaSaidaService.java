@@ -32,7 +32,7 @@ public class EntradaSaidaService {
 	public void novaEntradaSaida(EntradaSaidaRequest entradaSaidaRequest) {
 		EntradaSaida entradaSaida = new EntradaSaida();
 		BeanUtils.copyProperties(entradaSaidaRequest, entradaSaida);
-		entradaSaida.setParcelas(gerarParcelas(entradaSaidaRequest.getQtdeParcelas(), entradaSaidaRequest.getDataVencimento(), entradaSaidaRequest.getValor()));
+		entradaSaida.setParcelas(gerarParcelas(entradaSaidaRequest.getQtdeParcelas(), entradaSaidaRequest.getDataVencimento(), entradaSaidaRequest.getValor(), entradaSaidaRequest.getPago()));
 		System.out.println(entradaSaida);
 		repo.save(entradaSaida);
 	}
@@ -66,7 +66,7 @@ public class EntradaSaidaService {
 		return parcelaRepository.findByentradaSaidaId(id);
 	}
 	
-	public List<Parcela> gerarParcelas(int qtdeParcelas, LocalDate dataVencimento, BigDecimal valor) {
+	public List<Parcela> gerarParcelas(int qtdeParcelas, LocalDate dataVencimento, BigDecimal valor, boolean marcarPago) {
 		List<Parcela>parcelas = new ArrayList<>();
 		Calendar vencimento = converteVencimento(dataVencimento);
 		for(int i =0;  i<qtdeParcelas; i ++) {
@@ -74,6 +74,11 @@ public class EntradaSaidaService {
 			Parcela parcela = new Parcela();
 			parcela.setDataVencimento(venc);
 			parcela.setValorEsperado(valor);
+			if(marcarPago) {
+				parcela.setDataPagamento(venc);
+				parcela.setValorEfetivo(valor);
+				parcela.setStatus("Pago");
+			}
 			parcelas.add(parcela);
 			vencimento.set(Calendar.MONTH, (vencimento.get(Calendar.MONTH)+1));
 		}

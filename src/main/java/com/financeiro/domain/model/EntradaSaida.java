@@ -10,9 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.financeiro.domain.enums.TipoEntradaSaida;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -63,4 +63,7 @@ public class EntradaSaida {
 	public void setaEntradaSaidaNaLista() {
 		parcelas.forEach(i -> i.setEntradaSaida(this));
 	}
+	
+	@Transient
+	private boolean pago;
 }

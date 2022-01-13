@@ -3,9 +3,8 @@ package com.financeiro.domain.request;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import com.financeiro.domain.enums.TipoEntradaSaida;
-
 import lombok.Data;
+import lombok.Getter;
 @Data
 public class EntradaSaidaRequest {
 
@@ -20,4 +19,9 @@ public class EntradaSaidaRequest {
 	private boolean custoDiario;	
 	private String observacoes;	
 	private String categoria;
+	private boolean pago;
+	
+	public boolean getPago() {
+		return this.pago;
+	}
 }
