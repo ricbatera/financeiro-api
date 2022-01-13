@@ -51,6 +51,12 @@ public class EntradaSaida {
 	
 	private  boolean recorrente;
 	
+	private boolean custoDiario;
+	
+	private String observacoes;
+	
+	private String categoria;
+	
 	@PrePersist
 	public void setaEntradaSaidaNaLista() {
 		parcelas.forEach(i -> i.setEntradaSaida(this));

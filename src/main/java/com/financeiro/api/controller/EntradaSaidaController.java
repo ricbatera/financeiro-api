@@ -10,12 +10,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.financeiro.domain.model.EntradaSaida;
 import com.financeiro.domain.model.Parcela;
 import com.financeiro.domain.repository.EntradaSaidaRepository;
 import com.financeiro.domain.request.EntradaSaidaRequest;
+import com.financeiro.domain.request.ParcelaRequest;
 import com.financeiro.domain.service.EntradaSaidaService;
 
 @CrossOrigin
@@ -57,14 +59,20 @@ public class EntradaSaidaController {
 		return service.listarParcelasPorMes(inicial, fim);
 	}
 	
-	@GetMapping("/pagarParcela/{id}")
-	public void pagarParcela(@PathVariable Long id) {
-		service.pagar(id);
+	@PostMapping("/pagarParcela/{id}")
+	public void pagarParcela(@PathVariable Long id, @RequestBody String parcela) {
+		System.out.println(parcela);
+		System.out.println(id);
+		//service.pagar(id);Reque
 	}
 	
 	@GetMapping("/buscarEntradaSaida/{id}")
 	public List<Parcela> buscarEntradaSaidaPorId(@PathVariable Long id) {
 		return service.busarEntradaSaidaId(id);
 	}
-
+	
+	@PostMapping("/pagar")
+	public void pagar(@RequestBody ParcelaRequest corpo) {
+		System.out.println(corpo);
+	}
 }

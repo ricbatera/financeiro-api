@@ -14,4 +14,7 @@ public class EntradaSaidaRequest {
 	private BigDecimal valor;
 	private int qtdeParcelas;
 	private boolean recorrente;
+	private boolean custoDiario;	
+	private String observacoes;	
+	private String categoria;
 }
