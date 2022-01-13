@@ -22,11 +22,5 @@ private Long id;
 //	private BigDecimal valorEsperado;
 	
 	private BigDecimal valorEfetivo;
-	
-	
-	private EntradaSaida entradaSaida;	
-	
-	
-//	private String status = "Aberto";
 
 }

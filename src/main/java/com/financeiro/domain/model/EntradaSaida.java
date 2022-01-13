@@ -12,7 +12,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

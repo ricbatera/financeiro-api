@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.financeiro.domain.model.EntradaSaida;
@@ -43,12 +42,6 @@ public class EntradaSaidaController {
 		return lista;
 	}
 	
-//	@GetMapping("/listaMensal")
-//	public List<EntradaSaidaMensalDTO> listaMensal(@Param(value = "inicial")String inicial, @Param(value = "fim")String fim) {
-//		List<EntradaSaida> lista = new ArrayList<>();
-//		return service.listarMensalFiltrado(inicial, fim);
-//	}
-	
 	@GetMapping("/listaMensal")
 	public List<EntradaSaida> listaMensal(@Param(value = "inicial")String inicial, @Param(value = "fim")String fim) {
 		return service.listarMensal(inicial, fim);
@@ -60,10 +53,8 @@ public class EntradaSaidaController {
 	}
 	
 	@PostMapping("/pagarParcela/{id}")
-	public void pagarParcela(@PathVariable Long id, @RequestBody String parcela) {
-		System.out.println(parcela);
-		System.out.println(id);
-		//service.pagar(id);Reque
+	public void pagarParcela(@PathVariable Long id, @RequestBody ParcelaRequest parcela) {
+		service.pagar(id, parcela);
 	}
 	
 	@GetMapping("/buscarEntradaSaida/{id}")

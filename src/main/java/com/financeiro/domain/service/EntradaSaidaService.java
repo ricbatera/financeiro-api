@@ -19,6 +19,7 @@ import com.financeiro.domain.model.Parcela;
 import com.financeiro.domain.repository.EntradaSaidaRepository;
 import com.financeiro.domain.repository.ParcelaRepository;
 import com.financeiro.domain.request.EntradaSaidaRequest;
+import com.financeiro.domain.request.ParcelaRequest;
 
 @Service
 public class EntradaSaidaService {
@@ -52,15 +53,12 @@ public class EntradaSaidaService {
 		return parcelaRepository.listarFiltrandoMes(dtIn, dtFim);
 	}
 	
-//	public List<EntradaSaidaMensalDTO> listarMensalFiltrado(String inicio, String fim){
-//		LocalDate dtIn = LocalDate.parse(inicio);
-//		LocalDate dtFim = LocalDate.parse(fim);
-//		return repo.listarMensal(dtIn, dtFim).stream().map(item -> mapper.entradaSaidaToDto(item)).collect(Collectors.toList());
-//	}
 	
-	public void pagar(Long id) {
+	public void pagar(Long id, ParcelaRequest dadosPagto) {
 		Parcela parcela = parcelaRepository.getById(id);
 		parcela.setStatus("Pago");
+		parcela.setDataPagamento(dadosPagto.getDataPagamento());
+		parcela.setValorEfetivo(dadosPagto.getValorEfetivo());
 		parcelaRepository.save(parcela);
 	}
 	
