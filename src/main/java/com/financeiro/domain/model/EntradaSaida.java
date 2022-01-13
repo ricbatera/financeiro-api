@@ -12,6 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.financeiro.domain.enums.TipoEntradaSaida;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -46,7 +47,9 @@ public class EntradaSaida {
 	@OneToMany(mappedBy = "entradaSaida", cascade = CascadeType.ALL)
 	private List<Parcela>parcelas;
 	
-	private String tipoEntradaSaida; 
+	private String tipoEntradaSaida;
+	
+//	private TipoEntradaSaida tipoEntradaSaidaE;
 	
 	private  boolean recorrente;
 	
