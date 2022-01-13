@@ -13,7 +13,8 @@ public interface ParcelaRepository extends JpaRepository<Parcela, Long>{
 	@Query(value = "select p from Parcela p inner join p.entradaSaida e where p.dataVencimento between ?1 and ?2")
 	public List<Parcela> listarFiltrandoMes(LocalDate inicio, LocalDate fim);
 	
-	
+	//mesmo método anterior, porém com keywords
+	public List<Parcela>findByDataVencimentoBetween(LocalDate inicio, LocalDate fim);
 	public List<Parcela> findByentradaSaidaId(Long id);
 
 }
