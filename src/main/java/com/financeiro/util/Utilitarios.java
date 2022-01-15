@@ -8,6 +8,7 @@ public class Utilitarios {
 		return data.withDayOfMonth(1);
 	}
 	
+	//retorna a data setando o último dia do mês
 	public static LocalDate ultimoDiaMes(LocalDate data) {
 		return data.withDayOfMonth(data.lengthOfMonth());
 	}
