@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.financeiro.domain.dto.Indicadores;
 import com.financeiro.domain.service.IndicadoresService;
 
 @CrossOrigin
@@ -17,8 +18,8 @@ public class IndicadoresController {
 	private IndicadoresService service;
 	
 	@GetMapping
-	public void indicadores() {
-		service.indicadores();
+	public Indicadores indicadores() {
+		 return service.indicadores();
 	}
 
 }

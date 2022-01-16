@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.financeiro.domain.dto.Indicadores;
 import com.financeiro.domain.model.EntradaSaida;
 import com.financeiro.domain.model.Parcela;
 import com.financeiro.domain.repository.EntradaSaidaRepository;
@@ -23,108 +24,141 @@ public class IndicadoresService {
 	@Autowired 
 	private EntradaSaidaRepository repoEntradaSaida;
 	
-	public void indicadores() {
-		List<Parcela> parcelas;
+	public Indicadores indicadores() {		
+		Indicadores indicadores = new Indicadores();
 		LocalDate hoje = LocalDate.now();
-		parcelas = repo.findByDataVencimentoBetween(Utilitarios.primeiroDiaMes(hoje), Utilitarios.ultimoDiaMes(hoje));
-//		for(Parcela p : parcelas) {
-//			System.out.println(p.getEntradaSaida().getTipoEntradaSaida());
-//		}
-		custoDiarioHoje();
-		/*
-		totalSaidasMes(parcelas);
-		totalEntradaMes(parcelas);
-		totalEntradasRecebidoMes(parcelas);
-		totalSaidasPagoMes(parcelas);
-		totalEntradaAbertoMes(parcelas);
-		totalSaidasAbertoMes(parcelas);
-		*/
+		LocalDate dataInicial = Utilitarios.primeiroDiaMes(hoje);
+		LocalDate dataFinal = Utilitarios.ultimoDiaMes(hoje);
+		List<Parcela> parcelas = repo.findByDataVencimentoBetween(dataInicial, dataFinal);
+		
+		//obtendo os indicadores
+		BigDecimal totalSaidas = totalSaidasMes(parcelas);
+		BigDecimal totalSaidasAbertas = totalSaidasAbertoMes(parcelas);
+		BigDecimal totalSaidasPagas = totalSaidasPagoMes(parcelas);
+		
+		BigDecimal totalEntradas = totalEntradaMes(parcelas);
+		BigDecimal totalEntradasRecebidas = totalEntradasRecebidoMes(parcelas);
+		BigDecimal totalEntradasAbertas = totalEntradaAbertoMes(parcelas);
+		
+		BigDecimal custoDiario = custoDiarioHoje(hoje);
+		//setando a data inicial e final
+		indicadores.setDataInicial(dataInicial);
+		indicadores.setDataFinal(dataFinal);
+		
+		//setando indicadores numericos:
+		indicadores.getIndicadoresEmNumeros().setCustoDiario(custoDiario);
+		
+		indicadores.getIndicadoresEmNumeros().setTotalEntradas(totalEntradasAbertas);
+		indicadores.getIndicadoresEmNumeros().setTotalEntradasAbertas(totalEntradasAbertas);
+		indicadores.getIndicadoresEmNumeros().setTotalEntradasRecebidas(totalEntradasRecebidas);
+		
+		indicadores.getIndicadoresEmNumeros().setTotalSaidas(totalSaidas);
+		indicadores.getIndicadoresEmNumeros().setTotalSaidasAbertas(totalSaidasAbertas);
+		indicadores.getIndicadoresEmNumeros().setTotalSaidasPagas(totalSaidasPagas);
+		
+		
+		//setando indicadores formatados:
+		indicadores.getIndicadoresFormatados().setCustoDiario(Utilitarios.formataValorMonetario(custoDiario));
+		
+		indicadores.getIndicadoresFormatados().setTotalEntradas(Utilitarios.formataValorMonetario(totalEntradas));
+		indicadores.getIndicadoresFormatados().setTotalEntradasRecebidas(Utilitarios.formataValorMonetario(totalEntradasRecebidas));
+		indicadores.getIndicadoresFormatados().setTotalEntradasAbertas(Utilitarios.formataValorMonetario(totalEntradasAbertas));
+		
+		indicadores.getIndicadoresFormatados().setTotalSaidas(Utilitarios.formataValorMonetario(totalSaidas));
+		indicadores.getIndicadoresFormatados().setTotalSaidasAbertas(Utilitarios.formataValorMonetario(totalSaidasAbertas));
+		indicadores.getIndicadoresFormatados().setTotalSaidasPagas(Utilitarios.formataValorMonetario(totalSaidasPagas));
+
+		
+		//retorna o objeto completo com os indicadores... esse objeto irá evoluindo conforme a necessidade
+		return indicadores;
 	}
 	
 	//TOTAL DE SAÍDAS
-	public BigDecimal totalSaidasMes(List<Parcela> parcelas) {
+	private BigDecimal totalSaidasMes(List<Parcela> parcelas) {
 		BigDecimal total = new BigDecimal(0);
 		for (Parcela p : parcelas) {
 			if(p.getEntradaSaida().getTipoEntradaSaida().endsWith("Saída")) {
 				total = total.add(p.getValorEsperado());
 			}			
 		}
-		System.out.println(NumberFormat.getCurrencyInstance().format(total));
+		//System.out.println(NumberFormat.getCurrencyInstance().format(total));
 		return total;
 	}
 
 	// TOTAL DE ENTRADAS
-	public BigDecimal totalEntradaMes(List<Parcela> parcelas) {
+	private BigDecimal totalEntradaMes(List<Parcela> parcelas) {
 		BigDecimal total = new BigDecimal(0);
 		for (Parcela p : parcelas) {
 			if(p.getEntradaSaida().getTipoEntradaSaida().endsWith("Entrada")) {
 				total = total.add(p.getValorEsperado());
 			}			
 		}
-		System.out.println(NumberFormat.getCurrencyInstance().format(total));
+		//System.out.println(NumberFormat.getCurrencyInstance().format(total));
 		return total;
 	}
 	
 	//TOTAL SAÍDAS PAGAS
-	public BigDecimal totalSaidasPagoMes(List<Parcela> parcelas) {
+	private BigDecimal totalSaidasPagoMes(List<Parcela> parcelas) {
 		BigDecimal total = new BigDecimal(0);
 		for (Parcela p : parcelas) {
 			if(p.getStatus().equals("Pago") && p.getEntradaSaida().getTipoEntradaSaida().endsWith("Saída")) {
 				total = total.add(p.getValorEfetivo());
 			}
 		}
-		System.out.println(NumberFormat.getCurrencyInstance().format(total));
+		//System.out.println(NumberFormat.getCurrencyInstance().format(total));
 		return total;
 	}
 	
 	
 	//TOTAL DE ENTRADAS RECEBIDAS
-	public BigDecimal totalEntradasRecebidoMes(List<Parcela> parcelas) {
+	private BigDecimal totalEntradasRecebidoMes(List<Parcela> parcelas) {
 		BigDecimal total = new BigDecimal(0);
 		for (Parcela p : parcelas) {
 			if(p.getStatus().equals("Pago") && p.getEntradaSaida().getTipoEntradaSaida().endsWith("Entrada")) {
 				total = total.add(p.getValorEfetivo());
 			}
 		}
-		System.out.println(NumberFormat.getCurrencyInstance().format(total));
+		//System.out.println(NumberFormat.getCurrencyInstance().format(total));
 		return total;
 	}
 	
-	//TOTAL SAÍDAS PAGAS
-		public BigDecimal totalSaidasAbertoMes(List<Parcela> parcelas) {
+	//TOTAL SAÍDAS ABERTAS
+		private BigDecimal totalSaidasAbertoMes(List<Parcela> parcelas) {
 			BigDecimal total = new BigDecimal(0);
 			for (Parcela p : parcelas) {
 				if(p.getStatus().equals("Aberto") && p.getEntradaSaida().getTipoEntradaSaida().endsWith("Saída")) {
 					total = total.add(p.getValorEsperado());
 				}
 			}
-			System.out.println(NumberFormat.getCurrencyInstance().format(total));
+			//System.out.println(NumberFormat.getCurrencyInstance().format(total));
 			return total;
 		}
 		
 		
 		//TOTAL DE ENTRADAS ABERTAS
-		public BigDecimal totalEntradaAbertoMes(List<Parcela> parcelas) {
+		private BigDecimal totalEntradaAbertoMes(List<Parcela> parcelas) {
 			BigDecimal total = new BigDecimal(0);
 			for (Parcela p : parcelas) {
 				if(p.getStatus().equals("Aberto") && p.getEntradaSaida().getTipoEntradaSaida().endsWith("Entrada")) {
 					total = total.add(p.getValorEsperado());
 				}
 			}
-			System.out.println(NumberFormat.getCurrencyInstance().format(total));
+			//System.out.println(NumberFormat.getCurrencyInstance().format(total));
 			return total;
 		}
 		
 		// BUSCANDO CUSTO DIÁRIO
-		public void custoDiarioHoje() {
+		private BigDecimal custoDiarioHoje(LocalDate hoje) {
 			BigDecimal total = new BigDecimal(0);
 			List<EntradaSaida> listaCustoDiario = repoEntradaSaida.findByCustoDiarioTrue();
 			for(EntradaSaida e : listaCustoDiario) {
-				System.out.println(e.getDescricao());
-				for(Parcela p : e.getParcelas()) {
-					total = total.add(p.getValorEsperado());
-				}
+				LocalDate dataCad =e.getDataCadastro().toLocalDate();
+				if(dataCad.equals(hoje)) {
+					for(Parcela p : e.getParcelas()) {					
+						total = total.add(p.getValorEsperado());
+					}
+				}				
 			}
-			System.out.println(NumberFormat.getCurrencyInstance().format(total));
+			return total;
 		}
 }
