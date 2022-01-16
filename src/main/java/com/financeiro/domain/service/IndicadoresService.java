@@ -24,9 +24,10 @@ public class IndicadoresService {
 	@Autowired 
 	private EntradaSaidaRepository repoEntradaSaida;
 	
-	public Indicadores indicadores() {		
+	public Indicadores indicadores(String data) {		
 		Indicadores indicadores = new Indicadores();
-		LocalDate hoje = LocalDate.now();
+		//LocalDate hoje = LocalDate.now();
+		LocalDate hoje = LocalDate.parse(data);
 		LocalDate dataInicial = Utilitarios.primeiroDiaMes(hoje);
 		LocalDate dataFinal = Utilitarios.ultimoDiaMes(hoje);
 		List<Parcela> parcelas = repo.findByDataVencimentoBetween(dataInicial, dataFinal);

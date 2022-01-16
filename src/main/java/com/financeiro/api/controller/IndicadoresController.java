@@ -1,6 +1,7 @@
 package com.financeiro.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,8 +19,8 @@ public class IndicadoresController {
 	private IndicadoresService service;
 	
 	@GetMapping
-	public Indicadores indicadores() {
-		 return service.indicadores();
+	public Indicadores indicadores(@Param(value = "inicial")String inicial, @Param(value = "fim")String fim) {
+		 return service.indicadores(inicial);
 	}
 
 }
