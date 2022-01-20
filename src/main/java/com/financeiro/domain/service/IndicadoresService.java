@@ -26,7 +26,7 @@ public class IndicadoresService {
 	
 	public Indicadores indicadores(String data) {		
 		Indicadores indicadores = new Indicadores();
-		//LocalDate hoje = LocalDate.now();
+		LocalDate agora = LocalDate.now();
 		LocalDate hoje = LocalDate.parse(data);
 		LocalDate dataInicial = Utilitarios.primeiroDiaMes(hoje);
 		LocalDate dataFinal = Utilitarios.ultimoDiaMes(hoje);
@@ -41,7 +41,7 @@ public class IndicadoresService {
 		BigDecimal totalEntradasRecebidas = totalEntradasRecebidoMes(parcelas);
 		BigDecimal totalEntradasAbertas = totalEntradaAbertoMes(parcelas);
 		
-		BigDecimal custoDiario = custoDiarioHoje(hoje);
+		BigDecimal custoDiario = custoDiarioHoje(agora);
 		//setando a data inicial e final
 		indicadores.setDataInicial(dataInicial);
 		indicadores.setDataFinal(dataFinal);
