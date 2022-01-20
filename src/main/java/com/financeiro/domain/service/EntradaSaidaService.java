@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
@@ -66,6 +67,16 @@ public class EntradaSaidaService {
 		return parcelaRepository.findByentradaSaidaId(id);
 	}
 	
+	public void apagarEntradaSaida(Long id) {
+		Optional<EntradaSaida> es = repo.findById(id);
+		if(!es.isEmpty()) {
+			EntradaSaida conta = es.get();
+			repo.delete(conta);
+		}else {
+			System.out.println("Conta não encontrada");
+		}
+	}
+	
 	public List<Parcela> gerarParcelas(int qtdeParcelas, LocalDate dataVencimento, BigDecimal valor, boolean marcarPago) {
 		List<Parcela>parcelas = new ArrayList<>();
 		Calendar vencimento = converteVencimento(dataVencimento);
@@ -97,5 +108,7 @@ public class EntradaSaidaService {
 		vencimentoCalendar.set(Calendar.YEAR, ano);
 		return vencimentoCalendar;
 	}
+	
+	
 
 }
