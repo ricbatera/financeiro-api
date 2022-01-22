@@ -51,7 +51,8 @@ public class EntradaSaidaService {
 	public List<Parcela>listarParcelasPorMes(String inicio, String fim){
 		LocalDate dtIn = LocalDate.parse(inicio);
 		LocalDate dtFim = LocalDate.parse(fim);
-		return parcelaRepository.listarFiltrandoMes(dtIn, dtFim);
+		return parcelaRepository.findByDataVencimentoBetweenOrderByEntradaSaidaIdDesc(dtIn, dtFim);
+		//return parcelaRepository.listarFiltrandoMes(dtIn, dtFim);
 	}
 	
 	
@@ -74,6 +75,7 @@ public class EntradaSaidaService {
 			repo.delete(conta);
 		}else {
 			System.out.println("Conta não encontrada");
+			// implementar codigo para parcela não encontrada
 		}
 	}
 	
