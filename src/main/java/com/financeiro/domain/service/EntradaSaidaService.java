@@ -20,6 +20,7 @@ import com.financeiro.domain.model.Parcela;
 import com.financeiro.domain.repository.EntradaSaidaRepository;
 import com.financeiro.domain.repository.ParcelaRepository;
 import com.financeiro.domain.request.EntradaSaidaRequest;
+import com.financeiro.domain.request.EntradaSaidaRequestEditar;
 import com.financeiro.domain.request.ParcelaRequest;
 
 @Service
@@ -79,6 +80,13 @@ public class EntradaSaidaService {
 		}
 	}
 	
+	
+	public void editarEntradaSaida(Long id, EntradaSaidaRequestEditar dadosRecebidos) {
+		EntradaSaida entradaBancoDeDados = repo.findById(id).get();
+		BeanUtils.copyProperties(dadosRecebidos, entradaBancoDeDados, "id");
+		//System.out.println(entradaBancoDeDados.getDescricao());
+		repo.save(entradaBancoDeDados);
+	}
 	public List<Parcela> gerarParcelas(int qtdeParcelas, LocalDate dataVencimento, BigDecimal valor, boolean marcarPago) {
 		List<Parcela>parcelas = new ArrayList<>();
 		Calendar vencimento = converteVencimento(dataVencimento);

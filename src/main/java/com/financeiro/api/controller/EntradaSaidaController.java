@@ -2,6 +2,7 @@ package com.financeiro.api.controller;
 
 import java.util.List;
 
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,6 +18,7 @@ import com.financeiro.domain.model.EntradaSaida;
 import com.financeiro.domain.model.Parcela;
 import com.financeiro.domain.repository.EntradaSaidaRepository;
 import com.financeiro.domain.request.EntradaSaidaRequest;
+import com.financeiro.domain.request.EntradaSaidaRequestEditar;
 import com.financeiro.domain.request.ParcelaRequest;
 import com.financeiro.domain.service.EntradaSaidaService;
 
@@ -71,5 +73,10 @@ public class EntradaSaidaController {
 	@DeleteMapping("/apagar/{id}")
 	public void apagarEntradaSaida(@PathVariable Long id) {
 		service.apagarEntradaSaida(id);
+	}
+	
+	@PostMapping("/editar/{id}")
+	public void editarEntradaSaida(@PathVariable Long id, @RequestBody EntradaSaidaRequestEditar entradaSaida) {
+		service.editarEntradaSaida(id, entradaSaida);
 	}
 }
