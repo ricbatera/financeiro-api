@@ -31,6 +31,7 @@ public class IndicadoresService {
 		LocalDate dataInicial = Utilitarios.primeiroDiaMes(hoje);
 		LocalDate dataFinal = Utilitarios.ultimoDiaMes(hoje);
 		List<Parcela> parcelas = repo.findByDataVencimentoBetweenOrderByDataVencimentoDesc(dataInicial, dataFinal);
+		//
 		
 		//obtendo os indicadores
 		BigDecimal totalSaidas = totalSaidasMes(parcelas);
