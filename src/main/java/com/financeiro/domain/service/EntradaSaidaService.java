@@ -52,7 +52,7 @@ public class EntradaSaidaService {
 	public List<Parcela>listarParcelasPorMes(String inicio, String fim){
 		LocalDate dtIn = LocalDate.parse(inicio);
 		LocalDate dtFim = LocalDate.parse(fim);
-		return parcelaRepository.findByDataVencimentoBetweenOrderByEntradaSaidaIdDesc(dtIn, dtFim);
+		return parcelaRepository.findByDataVencimentoBetweenOrderByDataVencimentoDesc(dtIn, dtFim);
 		//return parcelaRepository.listarFiltrandoMes(dtIn, dtFim);
 	}
 	
@@ -84,7 +84,6 @@ public class EntradaSaidaService {
 	public void editarEntradaSaida(Long id, EntradaSaidaRequestEditar dadosRecebidos) {
 		EntradaSaida entradaBancoDeDados = repo.findById(id).get();
 		BeanUtils.copyProperties(dadosRecebidos, entradaBancoDeDados, "id");
-		//System.out.println(entradaBancoDeDados.getDescricao());
 		repo.save(entradaBancoDeDados);
 	}
 	public List<Parcela> gerarParcelas(int qtdeParcelas, LocalDate dataVencimento, BigDecimal valor, boolean marcarPago) {

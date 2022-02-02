@@ -14,7 +14,8 @@ public interface ParcelaRepository extends JpaRepository<Parcela, Long>{
 	public List<Parcela> listarFiltrandoMes(LocalDate inicio, LocalDate fim);
 	
 	//mesmo método anterior, porém com keywords
-	public List<Parcela>findByDataVencimentoBetweenOrderByEntradaSaidaIdDesc(LocalDate inicio, LocalDate fim);
+	public List<Parcela>findByDataVencimentoBetweenOrderByDataVencimentoDesc(LocalDate inicio, LocalDate fim);
+//	public List<Parcela>findByDataVencimentoBetweenOrderByEntradaSaidaIdDesc(LocalDate inicio, LocalDate fim);
 	public List<Parcela> findByentradaSaidaId(Long id);
 
 }
