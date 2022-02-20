@@ -55,6 +55,11 @@ public class EntradaSaidaController {
 		return service.listarParcelasPorMes(inicial, fim);
 	}
 	
+	@GetMapping("/listaParcelasMes")
+	public List<Parcela>listaParcelasMes (@Param(value = "datas")String datas){
+		return service.listarParcelasMes(datas);
+	}
+	
 	@PostMapping("/pagarParcela/{id}")
 	public void pagarParcela(@PathVariable Long id, @RequestBody ParcelaRequest parcela) {
 		service.pagar(id, parcela);

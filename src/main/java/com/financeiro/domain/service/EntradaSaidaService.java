@@ -22,6 +22,7 @@ import com.financeiro.domain.repository.ParcelaRepository;
 import com.financeiro.domain.request.EntradaSaidaRequest;
 import com.financeiro.domain.request.EntradaSaidaRequestEditar;
 import com.financeiro.domain.request.ParcelaRequest;
+import com.financeiro.util.Utilitarios;
 
 @Service
 public class EntradaSaidaService {
@@ -56,6 +57,11 @@ public class EntradaSaidaService {
 		//return parcelaRepository.listarFiltrandoMes(dtIn, dtFim);
 	}
 	
+	public List<Parcela> listarParcelasMes(String data) {
+		LocalDate dtIn = Utilitarios.primeiroDiaMes(LocalDate.parse(data));
+		LocalDate dtFim =Utilitarios.ultimoDiaMes(LocalDate.parse(data));
+		return parcelaRepository.findByDataVencimentoBetweenOrderByDataVencimentoDesc(dtIn, dtFim);
+	}
 	
 	public void pagar(Long id, ParcelaRequest dadosPagto) {
 		Parcela parcela = parcelaRepository.getById(id);
@@ -117,6 +123,8 @@ public class EntradaSaidaService {
 		vencimentoCalendar.set(Calendar.YEAR, ano);
 		return vencimentoCalendar;
 	}
+
+	
 	
 	
 

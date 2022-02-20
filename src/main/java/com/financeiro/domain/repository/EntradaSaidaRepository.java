@@ -18,5 +18,7 @@ public interface EntradaSaidaRepository extends JpaRepository<EntradaSaida, Long
 	@Query(value = "select us from EntradaSaida us inner join us.parcelas b where b.dataVencimento between ?1 and ?2")
 	public List<EntradaSaida> listarMensal(LocalDate inicio, LocalDate fim);
 	
+//	public EntradaSaida updateCategoriaLike(String palavra);
+	
 	public List<EntradaSaida> findByCustoDiarioTrue();
 }
