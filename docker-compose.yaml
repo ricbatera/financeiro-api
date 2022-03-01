@@ -16,3 +16,11 @@ services:
       - MYSQL_ROOT_PASSWORD=178209
     volumes:
       - ./docker/volume_mysql:/var/lib/mysql
+  web-front:
+    image: nginx
+    ports:
+      - '80:80'
+    links:
+      - financeiro
+    volumes:
+      - ./financas-front:/usr/share/nginx/html
