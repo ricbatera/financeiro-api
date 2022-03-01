@@ -34,3 +34,6 @@ build/
 
 ### BANCO DE DADOS ####
 docker/
+
+### FRONT END ####
+financas-front
