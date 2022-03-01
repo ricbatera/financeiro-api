@@ -2,7 +2,7 @@ version: '3'
 
 services:
   financeiro:    
-    image: financ
+    image: ricardo1782/financeiro-java
     ports:
       - '8080:8080'
     links: 
